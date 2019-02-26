@@ -25,8 +25,8 @@ def rpi_address():
             address = "0.0.0.0"
             date = "N/A"
         else:
-            address = data['address']
-            date = make_pretty_date(data['date'])
+            address = data[0]['address']
+            date = make_pretty_date(data[0]['date'])
 
         return '''<h1>Address: {}</h1>
         <h1>Date: {}'''.format(address, date)
@@ -60,10 +60,10 @@ def temperature():
             measurement = "N/A"
             date = "N/A"
         else:
-            temp_type = data['type']
-            temperature = data['temperature']
-            measurement = data['measurement']
-            date = data['date']
+            temp_type = data[0]['type']
+            temperature = data[0]['temperature']
+            measurement = data[0]['measurement']
+            date = data[0]['date']
 
         return jsonify(type=temp_type, temperature=temperature,
                        measurement=measurement, date=date)
@@ -94,7 +94,7 @@ def cook_time():
         if data is None:
             start_date = "N/A"
         else:
-            start_date = data['start_date']
+            start_date = data[0]['start_date']
 
         return jsonify(start_date=start_date)
 
