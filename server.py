@@ -35,7 +35,6 @@ def rpi_address():
         data = request.get_json()
 
         if server.verify_data(data, 'rpi_address') is True:
-            data['date'] = datetime.utcnow()
             server.add_data_to_collection(data, 'rpi_address')
 
             address = data['address']
@@ -72,7 +71,6 @@ def temperature():
         data = request.get_json()
 
         if server.verify_data(data, 'temperature') is True:
-            data['date'] = datetime.utcnow()
             server.add_data_to_collection(data, 'temperature')
 
             temperature = data['temperature']
@@ -102,7 +100,6 @@ def cook_time():
         data = request.get_json()
 
         if server.verify_data(data, 'cook_time') is True:
-            data['date'] = datetime.utcnow()
             server.add_data_to_collection(data, 'cook_time')
 
             start_date = make_pretty_date(data['start_date'])
