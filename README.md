@@ -5,6 +5,8 @@
 ## pip
 - flask
 - pymongo
+- requests
+- pytz
 
 # Flask server
 source $HOME/flask_server/bin/activate
