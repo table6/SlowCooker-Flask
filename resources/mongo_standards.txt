@@ -1,0 +1,20 @@
+- database name: slow_cooker
+- collections: rpi_address, temperature, cook_time
+
+- rpi_address = {
+    "address": IP address,
+    "date": UTC date
+}
+
+- temperature = {
+    "type": [probe/vessel]
+    "temperature": probe->[real numbers]/vessel->[low/medium/high]
+    "measurement": [F/C]
+    "date": UTC date
+}
+
+- cook_time = {
+    "start_date": UTC time
+    "length": ["HH:mm"/NA]
+    "date": UTC date
+}
