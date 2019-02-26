@@ -21,7 +21,7 @@ def rpi_address():
         # Get the most recent RPi address entry.
         data = server.get_most_recent_from_collection('rpi_address', 1)
 
-        if data is None:
+        if len(data) == 0:
             address = "0.0.0.0"
             date = "N/A"
         else:
@@ -54,7 +54,7 @@ def temperature():
         # Get the most recent RPi address entry.
         data = server.get_most_recent_from_collection('temperature', 1)
 
-        if data is None:
+        if len(data) == 0:
             temp_type = "N/A"
             temperature = "N/A"
             measurement = "N/A"
@@ -91,7 +91,7 @@ def cook_time():
         # Get the most recent RPi address entry.
         data = server.get_most_recent_from_collection('cook_time', 1)
 
-        if data is None:
+        if len(data) == 0:
             start_date = "N/A"
         else:
             start_date = data[0]['start_date']

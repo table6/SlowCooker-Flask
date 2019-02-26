@@ -60,18 +60,16 @@ class MongoSlowcookerServer:
 
         return True
 
-    # Get's the n most recent documents from the given collection or None if
-    # either the collection doesn't exist or an empty list if the collection
-    # is empty. Note that the given n might be larger than the size of the
+    # Get's the n most recent documents from the given collection or empty
+    # list if either the collection doesn't exist or if the collection is
+    # empty. Note that the given n might be larger than the size of the
     # given collection.
     def get_most_recent_from_collection(self, name, n):
-        if name not in self.collection_requirements:
-            return None
-
         data = []
-        collection = self.db[name]
-        for doc in collection.find().sort([('date', DESCENDING)]).limit(n):
-            data.append(doc)
+        if name in self.collection_requirements:
+            collection = self.db[name]
+            for doc in collection.find().sort([('date', DESCENDING)]).limit(n):
+                data.append(doc)
 
         return data
 
