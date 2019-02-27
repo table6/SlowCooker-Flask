@@ -102,10 +102,10 @@ def cook_time():
         if server.verify_data(data, 'cook_time') is True:
             server.add_data_to_collection(data, 'cook_time')
 
-            start_date = make_pretty_date(data['start_date'])
+            start_time = make_pretty_date(data['start_time'])
 
             return '''<h1>You said the start time is: {}</h1>'''.format(
-                start_date)
+                start_time)
 
         return Response(status=400)
 
