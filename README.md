@@ -9,10 +9,11 @@
 - pytz
 
 # Flask server
-source $HOME/flask_server/bin/activate
-export FLASK_APP=server.py
-flask run --host=0.0.0.0
+- `source $HOME/flask_server/bin/activate`
+- `export FLASK_APP=server.py`
+- `flask run --host=0.0.0.0`
 
 # MongoDB management
-sudo service mongod [start/stop/restart]
+`[sudo] service mongod [start/stop/restart/status]`
+
 
