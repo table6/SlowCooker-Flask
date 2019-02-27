@@ -90,11 +90,11 @@ def cook_time():
         data = server.get_most_recent_from_collection('cook_time', 1)
 
         if len(data) == 0:
-            start_date = "N/A"
+            start_time = "N/A"
         else:
-            start_date = data[0]['start_date']
+            start_time = data[0]['start_time']
 
-        return jsonify(start_date=start_date)
+        return jsonify(start_time=start_time)
 
     elif request.method == 'POST':
         data = request.get_json()
