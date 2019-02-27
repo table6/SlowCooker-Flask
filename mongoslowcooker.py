@@ -16,7 +16,7 @@ class MongoSlowcookerServer:
                                         'temperature': ['type',
                                                         'temperature',
                                                         'measurement'],
-                                        'cook_time': ['start_date']}
+                                        'cook_time': ['start_time']}
 
         self.client = MongoClient()
         self.db = self.client[self.database_name]
@@ -83,7 +83,7 @@ class MongoSlowcookerClient:
                                         'temperature': ['type',
                                                         'temperature',
                                                         'measurement'],
-                                        'cook_time': ['start_date']}
+                                        'cook_time': ['start_time']}
         self.ip_addr = ip_addr
         self.port = port
 
