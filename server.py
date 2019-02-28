@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, Response
 from pytz import timezone
 from datetime import datetime
-import json
 
 from mongoslowcooker import MongoSlowcookerServer
 
@@ -22,14 +21,14 @@ def rpi_address():
         data = server.get_most_recent_from_collection('rpi_address', 1)
 
         if len(data) == 0:
-            address = "0.0.0.0"
+            address = "N/A"
             date = "N/A"
         else:
             address = data[0]['address']
             date = make_pretty_date(data[0]['date'])
 
         return '''<h1>Address: {}</h1>
-        <h1>Date: {}'''.format(address, date)
+            <h1>Date: {}'''.format(address, date)
 
     elif request.method == 'POST':
         data = request.get_json()
@@ -54,18 +53,15 @@ def temperature():
         data = server.get_most_recent_from_collection('temperature', 1)
 
         if len(data) == 0:
-            temp_type = "N/A"
-            temperature = "N/A"
-            measurement = "N/A"
-            date = "N/A"
+            data = {'type': 'N/A', 'temperature': 'N/A',
+                    'measurement': 'N/A', 'date': 'N/A'}
         else:
-            temp_type = data[0]['type']
-            temperature = data[0]['temperature']
-            measurement = data[0]['measurement']
-            date = data[0]['date']
+            data = {'type': data[0]['type'],
+                    'temperature': data[0]['temperature'],
+                    'measurement': data[0]['measurement'],
+                    'date': data[0]['date']}
 
-        return jsonify(type=temp_type, temperature=temperature,
-                       measurement=measurement, date=date)
+        return jsonify(data)
 
     elif request.method == 'POST':
         data = request.get_json()
@@ -90,11 +86,12 @@ def cook_time():
         data = server.get_most_recent_from_collection('cook_time', 1)
 
         if len(data) == 0:
-            start_time = "N/A"
+            data = {'start_time': 'N/A', 'date': 'N/A'}
         else:
-            start_time = data[0]['start_time']
+            data = {'start_time': data[0]['start_time'],
+                    'date': data[0]['date']}
 
-        return jsonify(start_time=start_time)
+        return jsonify(data)
 
     elif request.method == 'POST':
         data = request.get_json()
@@ -111,5 +108,8 @@ def cook_time():
 
 
 def make_pretty_date(date):
+    if type(date) is str:
+        date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f')
+
     eastern = timezone('US/Eastern')
     return '{0:%Y-%m-%d %H:%M:%S}'.format(date.astimezone(eastern))
