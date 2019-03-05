@@ -1,20 +1,22 @@
 - database name: slow_cooker
-- collections: rpi_address, temperature, cook_time
+- collections: rpi_address, temperature, cook_time, lid_status
+
+- Note: All collections will have a date field, but this will be handled by the server.
 
 - rpi_address = {
     "address": IP address,
-    "date": UTC date
 }
 
 - temperature = {
     "type": [probe/vessel]
-    "temperature": probe->[real numbers]/vessel->[low/medium/high]
+    "temperature": probe->[140-180F in 5 degree increments]/vessel->[keep_warm/medium/high]
     "measurement": [F/C]
-    "date": UTC date
 }
 
 - cook_time = {
-    "start_date": UTC time
-    "length": ["HH:mm"/NA]
-    "date": UTC date
+    "start_time": UTC time
+}
+
+- lid_status = {
+    "status": [secure/unsecure]
 }
