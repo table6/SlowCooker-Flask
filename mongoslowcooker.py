@@ -7,24 +7,26 @@ import json
 import requests
 
 
+collection_requirements = {'rpi_address': ['address'],
+                           'temperature': ['type',
+                                           'temperature',
+                                           'measurement'],
+                           'cook_time': ['start_time'],
+                           'lid_status': ['status']}
+
+
 class MongoSlowcookerServer:
     '''A wrapper for the pymongo MongoClient class.'''
 
     def __init__(self):
         self.database_name = "slow_cooker"
-        self.collection_requirements = {'rpi_address': ['address'],
-                                        'temperature': ['type',
-                                                        'temperature',
-                                                        'measurement'],
-                                        'cook_time': ['start_time']}
-
         self.client = MongoClient()
         self.db = self.client[self.database_name]
 
     # Gets the collection if the given name is in the dict of collections.
     # Returns the collection object or None on failure.
     def get_collection_by_name(self, name):
-        if name not in self.collection_requirements:
+        if name not in collection_requirements:
             return None
 
         return self.db[name]
@@ -32,7 +34,7 @@ class MongoSlowcookerServer:
     # Adds the given data to the given collection. Return the document id on
     # success, None on failure.
     def add_data_to_collection(self, data, name):
-        if name not in self.collection_requirements:
+        if name not in collection_requirements:
             return None
 
         if self.verify_data(data, name) is False:
@@ -46,10 +48,10 @@ class MongoSlowcookerServer:
     # success, false if the given collection name is not in the database or
     # the data does not meet the requirements of the collection.
     def verify_data(self, data, collection):
-        if collection not in self.collection_requirements:
+        if collection not in collection_requirements:
             return False
 
-        requirements = self.collection_requirements[collection]
+        requirements = collection_requirements[collection]
 
         if len(data) != len(requirements):
             return False
@@ -66,7 +68,7 @@ class MongoSlowcookerServer:
     # given collection.
     def get_most_recent_from_collection(self, name, n):
         data = []
-        if name in self.collection_requirements:
+        if name in collection_requirements:
             collection = self.db[name]
             for doc in collection.find().sort([('date', DESCENDING)]).limit(n):
                 data.append(doc)
@@ -79,18 +81,13 @@ class MongoSlowcookerClient:
     JSON POST requests.'''
 
     def __init__(self, ip_addr, port):
-        self.collection_requirements = {'rpi_address': ['address'],
-                                        'temperature': ['type',
-                                                        'temperature',
-                                                        'measurement'],
-                                        'cook_time': ['start_time']}
         self.ip_addr = ip_addr
         self.port = port
 
     # Adds the given data to the given collection. Return the status code
     # returned by the server on success or None on failure.
     def add_data_to_collection(self, data, destination):
-        if destination not in self.collection_requirements:
+        if destination not in collection_requirements:
             print('MongoSlowcookerClient: Name "{}" not a supported web page.'
                   'Check spelling.'.format(destination))
             return None
@@ -109,12 +106,12 @@ class MongoSlowcookerClient:
     # database or the data does not meet the requirements of the
     # collection.
     def verify_data(self, data, collection):
-        if collection not in self.collection_requirements:
+        if collection not in collection_requirements:
             print('MongoSlowcookerClient: Name "{}" not a supported '
                   'collection. Check spelling.'.format(collection))
             return False
 
-        requirements = self.collection_requirements[collection]
+        requirements = collection_requirements[collection]
 
         if len(data) != len(requirements):
             print('MongoSlowcookerClient: Length of data incorrect. Check '
