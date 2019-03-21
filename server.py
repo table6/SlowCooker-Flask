@@ -123,7 +123,7 @@ def lid_status():
         data = request.get_json()
 
         if server.verify_data(data, 'lid_status') is True:
-            server.add_data_to_collection(data, 'cook_time')
+            server.add_data_to_collection(data, 'lid_status')
 
             status = data['status']
 
