@@ -9,8 +9,8 @@
 
 - temperature = {
     "type": [probe/vessel]
-    "temperature": probe->[140-180F in 5 degree increments]/vessel->[keep_warm/medium/high]
-    "measurement": [F/C]
+    "temperature": probe->[140-180F in 5 degree increments][60-80C in 5 degree increments]/vessel->[warm/low/high]
+    "measurement": probe->[F/C]/vessel->[N/A]
 }
 
 - cook_time = {
