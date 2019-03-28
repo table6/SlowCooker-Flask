@@ -131,8 +131,8 @@ def lid_status():
                 status)
 
         return Response(status=400)
-		
-			
+
+
 @app.route("/control_temperature", methods=['GET', 'POST'])
 def control_temperature():
     server = MongoSlowcookerServer()
@@ -163,8 +163,8 @@ def control_temperature():
                 temperature)
 
         return Response(status=400)
-		
-		
+
+
 @app.route("/control_cook_time", methods=['GET', 'POST'])
 def control_cook_time():
     server = MongoSlowcookerServer()
@@ -195,7 +195,7 @@ def control_cook_time():
 
 
 @app.route("/control_lid_status", methods=['GET', 'POST'])
-def lid_status():
+def control_lid_status():
     server = MongoSlowcookerServer()
 
     if request.method == 'GET':
@@ -221,8 +221,8 @@ def lid_status():
                 status)
 
         return Response(status=400)
-		
-		
+
+
 def make_pretty_date(date):
     if type(date) is str:
         date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f')

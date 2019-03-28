@@ -14,11 +14,11 @@ collection_requirements = {'rpi_address': ['address'],
                            'cook_time': ['start_time'],
                            'lid_status': ['status']
                            'control_temperature': ['type',
-	                                                  'temperature',
-	                                                  'measurement'],
-	                        'control_cook_time': ['start_time'],
-	                        'control_lid_status': ['status'],
-	                          }
+                                                   'temperature',
+                                                   'measurement'],
+                           'control_cook_time': ['start_time'],
+                           'control_lid_status': ['status'],
+                           }
 
 
 class MongoSlowcookerServer:
