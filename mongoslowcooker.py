@@ -12,7 +12,7 @@ collection_requirements = {'rpi_address': ['address'],
                                            'temperature',
                                            'measurement'],
                            'cook_time': ['start_time'],
-                           'lid_status': ['status']
+                           'lid_status': ['status'],
                            'control_temperature': ['type',
                                                    'temperature',
                                                    'measurement'],

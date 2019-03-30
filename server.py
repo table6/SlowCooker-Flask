@@ -157,7 +157,7 @@ def control_temperature():
         if server.verify_data(data, 'control_temperature') is True:
             server.add_data_to_collection(data, 'control_temperature')
 
-            temperature = data['control_temperature']
+            temperature = data['temperature']
 
             return '''<h1>You said the temperature is: {}</h1>'''.format(
                 temperature)
