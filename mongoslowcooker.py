@@ -5,6 +5,7 @@ from pytz import timezone
 from datetime import datetime
 import json
 import requests
+import threading
 
 
 collection_requirements = {'rpi_address': ['address'],
@@ -90,8 +91,48 @@ class MongoSlowcookerClient:
         self.ip_addr = ip_addr
         self.port = port
 
-    # Adds the given data to the given collection. Return the status code
-    # returned by the server on success or None on failure.
+        self.server_feed = {}
+        for key in collection_requirements.keys():
+            # TODO: Replace with control.
+            # if "address" in key:
+            if key != "rpi_address":
+                self.server_feed[key] = {}
+
+    # Posts the given data to the server directory specified by the given
+    # destination. Do not call this function directly; call
+    # add_data_to_collection instead.
+    def push_to_server(self, data, destination):
+        if type(data) is not dict:
+            raise TypeError
+
+        http = "http://{}:{}/{}".format(self.ip_addr, self.port, destination)
+        header = {'Content-Type': 'application/json'}
+        requests.post(http, data=json.dumps(data), headers=header)
+
+    # Gets the data from the server directory specified by the given
+    # destination. Returns a dict if the status code is OK or None otherwise.
+    def pull_from_server(self, destination):
+        http = "http://{}:{}/{}".format(self.ip_addr, self.port, destination)
+        response = requests.get(http)
+        if response.status_code != 200:
+            return None
+
+        return response.json()
+
+    # Enumerate server control directories. Returns a dict of new feeds or an
+    # empty dict if the feeds are not new.
+    def update_server_feed(self):
+        new_feed = {}
+        for key in self.server_feed.keys():
+            feed = self.pull_from_server(key)
+            if feed is not None and self.server_feed[key] != feed:
+                self.server_feed[key] = feed
+                new_feed[key] = feed
+
+        return new_feed
+
+    # Adds the given data to the given collection if the data is valid. Return
+    # None on failure.
     def add_data_to_collection(self, data, destination):
         if destination not in collection_requirements:
             print('MongoSlowcookerClient: Name "{}" not a supported web page.'
@@ -101,11 +142,11 @@ class MongoSlowcookerClient:
         if self.verify_data(data, destination) is False:
             return None
 
-        http = "http://{}:{}/{}".format(self.ip_addr, self.port, destination)
-        header = {'Content-Type': 'application/json'}
-        r = requests.post(http, data=json.dumps(data), headers=header)
-
-        return r.status_code
+        # It would be useful if we could get the return result from the thread.
+        # Some brief research shows that using a ThreadPool might be useful for
+        # that but did not have much success in practice.
+        threading.Thread(target=self.push_to_server,
+                         args=(data, destination)).start()
 
     # Checks if the data meets the requirements of the collection. True
     # if success, false if the given collection name is not in the
