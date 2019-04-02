@@ -186,7 +186,7 @@ def control_cook_time():
         if server.verify_data(data, 'control_cook_time') is True:
             server.add_data_to_collection(data, 'control_cook_time')
 
-            start_time = make_pretty_date(data['start_time'])
+            start_time = data['start_time']
 
             return '''<h1>You said the start time is: {}</h1>'''.format(
                 start_time)
