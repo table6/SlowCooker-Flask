@@ -15,7 +15,7 @@
 {
     "type": [manual/program/probe],
     "temperature": probe->[140-180F in 5 degree increments][60-80C in 5 degree increments]/manual||program->[warm/low/high],
-    "measurement": probe->[F/C]/vessel->[N/A]
+    "measurement": probe->[F/C]/manual||program->[N/A]
 }
 
 # cook_time
