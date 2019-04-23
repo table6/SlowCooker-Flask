@@ -1,22 +1,35 @@
-- database name: slow_cooker
-- collections: rpi_address, temperature, cook_time, lid_status
+# database name: slow_cooker
+# collections: rpi_address, temperature, cook_time, lid_status
 
-- Note: All collections will have a date field, but this will be handled by the server.
+# Notes: 
+    - All collections will have a date field, but this will be handled by the server. 
+    - All collections also have a control version. These collections are the same as their counterparts
+    unless otherwise noted.
 
-- rpi_address = {
-    "address": IP address,
+# rpi_address
+{
+    "address": IP address
 }
 
-- temperature = {
-    "type": [probe/vessel]
-    "temperature": probe->[140-180F in 5 degree increments][60-80C in 5 degree increments]/vessel->[warm/low/high]
-    "measurement": probe->[F/C]/vessel->[N/A]
+# temperature
+{
+    "type": [manual/program/probe],
+    "temperature": probe->[140-180F in 5 degree increments][60-80C in 5 degree increments]||manual/program->[warm/low/high],
+    "measurement": probe->[F/C]||manual/program->[N/A]
 }
 
-- cook_time = {
+# cook_time
+{
     "start_time": UTC time
 }
 
-- lid_status = {
+# Note that the format of the "start_time" field is different.
+# control_cook_time
+{
+    "start_time": HH:mm
+}
+
+# lid_status
+{
     "status": [secure/unsecure]
 }
